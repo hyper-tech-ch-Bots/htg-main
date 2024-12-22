@@ -3,8 +3,13 @@ This is the default template I use to make most of my Discord Bots. It's OS but 
 
 # Prerequisites
 - \>= NodeJS 20.9.0
+- \>= MongoDB 8.0.4
 
 # Prepare
+First, fill out all the mandatory fields in the `.env` file.
+
+Read all the dependencies before you install it in the package.json file.
+When you've read the file, install the dependencies
 ```
 npm install
 ```
