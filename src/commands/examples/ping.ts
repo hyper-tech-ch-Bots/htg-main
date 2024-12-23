@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { ApplicationCommandExportType } from "src/types/exports/commands";
+import { ApplicationCommandExportType } from "types/exports/commands";
 
 export default {
 	data: new SlashCommandBuilder()
