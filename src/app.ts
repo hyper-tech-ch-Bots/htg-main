@@ -7,6 +7,18 @@ import { ApplicationCommandExportType } from "./types/exports/commands";
 import { CommandExecutionDocument } from "./types/db/CommandExecutionDocument";
 import { ApplicationEventExportType } from "./types/exports/events";
 
+/**
+ * 
+ * 			   W A R N I N G
+ * 
+ * YOU SHOULD NOT BE CHANGING CODE IN HERE!
+ *  IF YOU DO SO, GETTING UPGRADES MAY GET
+ *  WAY HARDER. IF YOU DONT EDIT THIS, YOU
+ *  CAN SIMPLY MERGE THE TEMPLATE TO THIS
+ *                  PROJECT
+ * 
+ */
+
 // This creates the env from the .env file
 dotenv.config();
 
