@@ -1,5 +1,5 @@
 import { Client, Events } from "discord.js";
-import { ApplicationEventExportType } from "src/types/exports/events";
+import { ApplicationEventExportType } from "types/exports/events";
 
 export default {
 	listening: Events.ClientReady,
