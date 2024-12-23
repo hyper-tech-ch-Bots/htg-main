@@ -9,15 +9,17 @@ import { ApplicationEventExportType } from "./types/exports/events";
 
 /**
  * 
- * 			   W A R N I N G
+ *             W A R N I N G
  * 
- * YOU SHOULD NOT BE CHANGING CODE IN HERE!
+ *  YOU SHOULD NOT BE CHANGING CODE IN HERE!
  *  IF YOU DO SO, GETTING UPGRADES MAY GET
- *  WAY HARDER. IF YOU DONT EDIT THIS, YOU
+ *  WAY HARDER. IF YOU DON'T EDIT THIS, YOU
  *  CAN SIMPLY MERGE THE TEMPLATE TO THIS
  *                  PROJECT
  * 
+ *  This is V.1.0.1 of this template
  */
+
 
 // This creates the env from the .env file
 dotenv.config();
@@ -109,12 +111,10 @@ async function main() {
 		}
 	})
 
-	console.log("✅ Application events liked");
+	console.log("✅ Application events linked");
 	
 	//////////////////////////////////////////////////////////////////////////
 	// Register (/) Commands
-	console.log(`⌛ Started refreshing ${commandsToRegister.length} application (/) commands.`);
-
 	const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
 	(async () => {
