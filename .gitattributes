@@ -1,0 +1,4 @@
+README.md merge=ours
+
+src/commands/** merge=ours
+src/events/** merge=ours
