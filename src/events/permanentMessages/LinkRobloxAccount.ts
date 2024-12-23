@@ -1,6 +1,6 @@
 import { BaseMessageOptions, Client, Events } from "discord.js";
-import { getDatabase } from "src/services/database";
-import { ApplicationEventExportType } from "src/types/exports/events";
+import { getDatabase } from "services/database";
+import { ApplicationEventExportType } from "types/exports/events";
 
 export default {
 	listening: Events.ClientReady,
