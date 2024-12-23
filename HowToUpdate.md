@@ -16,7 +16,9 @@ git merge template/main
 ```
 
 3. Resolve any conflicts if they occur
-Up to you! :p
+```
+Your problem, not mine :p
+```
 
 4. Commit the merged changes:
 ```
