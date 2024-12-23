@@ -1,10 +1,11 @@
-import { Client, ClientApplication, Events, REST, RESTPostAPIApplicationCommandsJSONBody, Routes, SlashCommandBuilder } from "discord.js";
+import { applicationDirectory, Client, ClientApplication, Events, REST, RESTPostAPIApplicationCommandsJSONBody, Routes, SlashCommandBuilder } from "discord.js";
 import dotenv from 'dotenv';
 import { connectToDatabase, getDatabase } from "./services/database";
 import { readDirRecursive } from "./helpers/readDirRecursive";
 import path from "path";
 import { ApplicationCommandExportType } from "./types/exports/commands";
-import { CommandExecutionDocument } from "./types/db/commandExecutionDocument";
+import { CommandExecutionDocument } from "./types/db/CommandExecutionDocument";
+import { ApplicationEventExportType } from "./types/exports/events";
 
 // This creates the env from the .env file
 dotenv.config();
@@ -21,7 +22,13 @@ async function main() {
 	await connectToDatabase();
 	let commandExecutionLogCollection = getDatabase().collection("CommandExecutions")
 
+	const client = new Client({
+		intents: []
+	})
+
+	//////////////////////////////////////////////////////////////////////////
 	// Gather all command files and parse them
+
 	console.log("⌛ Gathering all (/) Commands");
 
 	try {
@@ -46,8 +53,55 @@ async function main() {
 		process.exit(1);
 	}
 
+	console.log("✅ Commands directory parsed!");
+	
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Gather event files and parse them
+
+	console.log("⌛ Gathering all application events");
+
+	try {
+		const files: string[] = await readDirRecursive('./dist/events');
+
+		for (const filePath of files) {
+			console.log("   🔗 " + filePath);
+
+			// Parse the file
+			const absolutePath = path.resolve(process.cwd(), filePath);
+			const routeModule = await import(absolutePath);
+
+			if (path.dirname(absolutePath).endsWith("examples")) continue;
+
+			// Add the command to the commands to add if it is a real file
+			if (routeModule.default && typeof routeModule.default === 'object') {
+				eventsToRegister.push(routeModule.default as ApplicationEventExportType);
+			}
+		}
+	} catch (error) {
+		console.error('🛑 Error reading directory:', error);
+		process.exit(1);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Register all application events
+	console.log(`⌛ Started refreshing ${eventsToRegister.length} application events.`);
+
+	eventsToRegister.forEach(event => {
+		if (!event.listening) return;
+
+		if(event.once) {
+			client.once(event.listening, event.onEvent);
+		} else {
+			client.on(event.listening, event.onEvent);
+		}
+	})
+
+	console.log("✅ Application events liked");
+	
 	//////////////////////////////////////////////////////////////////////////
 	// Register (/) Commands
+	console.log(`⌛ Started refreshing ${commandsToRegister.length} application (/) commands.`);
 
 	const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
@@ -81,10 +135,6 @@ async function main() {
 	//////////////////////////////////////////////////////////////////////////
 	// Create the Discord Bot Client
 	console.log("⌛ Creating Discord Bot...");
-
-	const client = new Client({
-		intents: []
-	})
 
 	//////////////////////////////////////////////////////////////////////////
 	// Handle (/) Commands
