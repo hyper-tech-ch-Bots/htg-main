@@ -34,7 +34,7 @@ async function main() {
 
 	// Database Setup
 	await connectToDatabase();
-	let commandExecutionLogCollection = getDatabase().collection("CommandExecutions")
+	let commandExecutionLogCollection = getDatabase().collection("command_executions")
 
 	const client = new Client({
 		intents: []
